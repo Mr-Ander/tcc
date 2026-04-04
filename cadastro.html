@@ -1,0 +1,56 @@
+!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="cadastro.css">
+</head>
+<body>
+
+<div class="form">
+
+  <h1>Cadastro de Planta</h1>
+
+  <label>Nome:</label>
+  <input type="text">
+
+  <label>Espécie:</label>
+  <input type="text">
+
+  <label>Categoria:</label>
+  <select>
+    <option>Venenosa</option>
+    <option>Medicinal</option>
+  </select>
+
+  <label>Local de coleta:</label>
+  <input type="text">
+
+  <label>Foto:</label>
+  <input type="file">
+
+  <label>Observações:</label>
+  <input type="text">
+
+  <button onclick="salvarPlanta()">SALVAR</button>
+
+</div>
+<script>
+  function salvarPlanta(){
+    const nome = 
+    document.querySelectorAll("input")
+  [0].value;
+  const especie =
+  document.querySelectorAll("input")
+  [1].value;
+  const categoria =
+  document.querySelector("select").value;
+  if(nome === "" || especie === "") {
+    alert("preencha os campos!");
+    return;
+  }
+  alert("planta salva com sucesso");
+  window.location.href = "index.html";
+  }
+</script>
+</body>
+</html>

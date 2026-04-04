@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Plantas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <input class="search" placeholder="Buscar planta">
+  <button class="categoria">Categoria</button>
+
+  <!-- CARD -->
+  <div class="card">
+    <img src="img/planta1.jpg">
+    <div class="info">
+      <h2>Planta 1</h2>
+      <p><span class="status green"></span>Status</p>
+    </div>
+    <button onclick="irDetalhes()" class="btn">Detalhes</button>
+  </div>
+
+  <div class="card">
+    <img src="img/planta2.jpg">
+    <div class="info">
+      <h2>Planta 2</h2>
+      <p><span class="status yellow"></span>Status</p>
+    </div>
+    <button onclick="irDetalhes()" class="btn">Detalhes</button>
+  </div>
+
+  <div class="card">
+    <img src="img/planta3.jpg">
+    <div class="info">
+      <h2>Planta 3</h2>
+      <p><span class="status yellow"></span>Status</p>
+    </div>
+    <button onclick="irDetalhes()" class="btn">Detalhes</button>
+  </div>
+
+  <button onclick="irCadastro()" class="add">+ Adicionar Planta</button>
+
+</div>
+
+<script>
+function irDetalhes(){
+  window.location.href = "detalhes.html";
+}
+
+function irCadastro(){
+  window.location.href = "cadastro.html";
+}
+function irCategoria(){
+  window.location.href = "categoria.html";
+}
+</script>
+
+</body>
+</html>

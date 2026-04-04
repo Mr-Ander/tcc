@@ -1,0 +1,29 @@
+body {
+  font-family: Arial;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  width: 90%;
+  max-width: 400px;
+  background: #f4f4f4;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+
+.img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.editar {
+  width: 100%;
+  padding: 15px;
+  background: #0d5c3b;
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
