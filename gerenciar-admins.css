@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(#1c8f4d, #0f5f34);
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #0d5c3b;
+  font-size: 24px;
+  flex: 1;
+}
+
+.btn-voltar {
+  padding: 10px 20px;
+  background: #666;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-voltar:hover {
+  background: #555;
+}
+
+.form-adicionar {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.form-adicionar h2 {
+  margin: 0 0 20px 0;
+  color: #0d5c3b;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #0d5c3b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #0a4528;
+}
+
+.mensagem {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.lista-admins {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.lista-admins h2 {
+  margin: 0 0 20px 0;
+  color: #0d5c3b;
+}
+
+.admin-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #f4f4f4;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.admin-info {
+  color: #333;
+}
+
+.btn-remover {
+  width: auto;
+  padding: 8px 15px;
+  background: #d9534f;
+  font-size: 12px;
+}
+
+.btn-remover:hover {
+  background: #c9302c;
+}
+
+.btn-remover:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

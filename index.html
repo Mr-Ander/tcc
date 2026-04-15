@@ -9,53 +9,146 @@
 
 <div class="container">
 
-  <input class="search" placeholder="Buscar planta">
-  <button class="categoria">Categoria</button>
-
-  <!-- CARD -->
-  <div class="card">
-    <img src="img/planta1.jpg">
-    <div class="info">
-      <h2>Planta 1</h2>
-      <p><span class="status green"></span>Status</p>
-    </div>
-    <button onclick="irDetalhes()" class="btn">Detalhes</button>
+  <div class="search-bar">
+    <input class="search" placeholder="Buscar planta" id="searchInput">
+    <button class="btn-camera-pesquisa" onclick="abrirCameraPesquisa()" title="Identificar planta pela c\u00e2mera">&#128247;</button>
+  </div>
+  <div class="top-bar">
+    <span class="usuario-nome" id="usuarioNomeSpan"></span>
+    <button onclick="sair()" class="btn-sair-index">Sair</button>
   </div>
 
-  <div class="card">
-    <img src="img/planta2.jpg">
-    <div class="info">
-      <h2>Planta 2</h2>
-      <p><span class="status yellow"></span>Status</p>
+  <div id="camera-pesquisa-area" style="display:none">
+    <video id="camera-pesquisa-video" autoplay playsinline></video>
+    <canvas id="camera-pesquisa-canvas" style="display:none"></canvas>
+    <div class="camera-pesquisa-btns">
+      <button onclick="capturarPesquisa()">Capturar</button>
+      <button onclick="fecharCameraPesquisa()" class="btn-cancelar-pesquisa">Cancelar</button>
     </div>
-    <button onclick="irDetalhes()" class="btn">Detalhes</button>
+    <div id="camera-pesquisa-preview" style="display:none">
+      <img id="camera-pesquisa-img">
+      <p id="camera-ia-msg">Imagem capturada. Adicione sua IA aqui para identificar a planta.</p>
+      <button onclick="fecharCameraPesquisa()">Fechar</button>
+    </div>
   </div>
 
-  <div class="card">
-    <img src="img/planta3.jpg">
-    <div class="info">
-      <h2>Planta 3</h2>
-      <p><span class="status yellow"></span>Status</p>
-    </div>
-    <button onclick="irDetalhes()" class="btn">Detalhes</button>
-  </div>
+  <div id="listaPlantas"></div>
+
+  <p id="mensagemVazio" style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;">
+    Nenhuma planta aprovada ainda
+  </p>
 
   <button onclick="irCadastro()" class="add">+ Adicionar Planta</button>
 
 </div>
 
 <script>
-function irDetalhes(){
+if(!localStorage.getItem("usuarioLogado")){
+  window.location.href = "login.html";
+}
+
+document.getElementById("usuarioNomeSpan").textContent = "Olá, " + (localStorage.getItem("usuarioNome") || "");
+
+function sair(){
+  localStorage.removeItem("usuarioLogado");
+  localStorage.removeItem("adminLogado");
+  localStorage.removeItem("usuarioNome");
+  window.location.href = "login.html";
+}
+
+function carregarPlantas(){
+  const plantasAprovadas = JSON.parse(localStorage.getItem("plantasAprovadas")) || [];
+  const container = document.getElementById("listaPlantas");
+  
+  if(plantasAprovadas.length === 0){
+    document.getElementById("mensagemVazio").style.display = "block";
+    return;
+  }
+  
+  document.getElementById("mensagemVazio").style.display = "none";
+  container.innerHTML = "";
+  
+  plantasAprovadas.forEach((planta, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="${planta.foto || 'img/planta' + ((index % 3) + 1) + '.jpg'}" onerror="this.src='img/planta${(index % 3) + 1}.jpg'">
+      <div class="info">
+        <h2>${planta.nome}</h2>
+        <p><span class="status ${planta.status || 'green'}"></span>${planta.especie}</p>
+      </div>
+      <button onclick="irDetalhes(${index})" class="btn">Detalhes</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function irDetalhes(index){
+  localStorage.setItem("plantaSelecionada", index);
   window.location.href = "detalhes.html";
 }
 
 function irCadastro(){
   window.location.href = "cadastro.html";
 }
-function irCategoria(){
-  window.location.href = "categoria.html";
-}
-</script>
 
+let streamPesquisa = null;
+
+function abrirCameraPesquisa(){
+  const area = document.getElementById("camera-pesquisa-area");
+  area.style.display = "block";
+  document.getElementById("camera-pesquisa-preview").style.display = "none";
+  document.getElementById("camera-pesquisa-video").style.display = "block";
+  document.querySelector(".camera-pesquisa-btns").style.display = "flex";
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false })
+    .then(function(s){
+      streamPesquisa = s;
+      document.getElementById("camera-pesquisa-video").srcObject = s;
+    })
+    .catch(function(){
+      alert("Não foi possível acessar a câmera. Verifique as permissões do navegador.");
+      fecharCameraPesquisa();
+    });
+}
+
+function capturarPesquisa(){
+  const video = document.getElementById("camera-pesquisa-video");
+  const canvas = document.getElementById("camera-pesquisa-canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+  const foto = canvas.toDataURL("image/jpeg", 0.8);
+
+  if(streamPesquisa){
+    streamPesquisa.getTracks().forEach(function(t){ t.stop(); });
+    streamPesquisa = null;
+  }
+
+  document.getElementById("camera-pesquisa-video").style.display = "none";
+  document.querySelector(".camera-pesquisa-btns").style.display = "none";
+  document.getElementById("camera-pesquisa-img").src = foto;
+  document.getElementById("camera-pesquisa-preview").style.display = "block";
+
+  /* === PONTO DE INTEGRAÇÃO DA IA ===
+     A variável `foto` contém a imagem em base64 (image/jpeg).
+     Chame sua API de IA aqui passando `foto` para identificar a planta.
+     Exemplo:
+       identificarPlantaComIA(foto).then(resultado => {
+         document.getElementById("camera-ia-msg").textContent = resultado;
+       });
+  */
+}
+
+function fecharCameraPesquisa(){
+  if(streamPesquisa){
+    streamPesquisa.getTracks().forEach(function(t){ t.stop(); });
+    streamPesquisa = null;
+  }
+  document.getElementById("camera-pesquisa-area").style.display = "none";
+}
+
+carregarPlantas();
+</script>
+<script src="chat.js"></script>
 </body>
 </html>

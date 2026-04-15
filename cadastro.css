@@ -29,4 +29,35 @@ button {
   color: white;
   border: none;
   border-radius: 20px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.foto-opcoes {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-foto {
+  flex: 1;
+  padding: 10px;
+  background: #2ea36a;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+#video {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.btn-capturar {
+  background: #1c8f4d;
+  margin-bottom: 8px;
+}
+
+.btn-cancelar-cam {
+  background: #888;
 }

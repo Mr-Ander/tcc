@@ -11,46 +11,131 @@
   <h1>Cadastro de Planta</h1>
 
   <label>Nome:</label>
-  <input type="text">
+  <input type="text" id="nome">
 
   <label>Espécie:</label>
-  <input type="text">
+  <input type="text" id="especie">
 
   <label>Categoria:</label>
-  <select>
+  <select id="categoria">
     <option>Venenosa</option>
     <option>Medicinal</option>
   </select>
 
   <label>Local de coleta:</label>
-  <input type="text">
+  <input type="text" id="local">
 
   <label>Foto:</label>
-  <input type="file">
+  <div class="foto-opcoes">
+    <button type="button" onclick="usarArquivo()" class="btn-foto">Escolher Arquivo</button>
+    <button type="button" onclick="abrirCamera()" class="btn-foto">Usar Câmera</button>
+  </div>
+  <input type="file" id="inputArquivo" accept="image/*" style="display:none" onchange="previewArquivo(event)">
+
+  <div id="cameraArea" style="display:none">
+    <video id="video" autoplay playsinline></video>
+    <button type="button" onclick="tirarFoto()" class="btn-capturar">TIRAR FOTO</button>
+    <button type="button" onclick="fecharCamera()" class="btn-cancelar-cam">Cancelar</button>
+  </div>
+
+  <canvas id="canvas" style="display:none"></canvas>
+  <img id="preview" style="display:none; width:100%; border-radius:10px; margin-bottom:10px;">
 
   <label>Observações:</label>
-  <input type="text">
+  <input type="text" id="observacoes">
 
-  <button onclick="salvarPlanta()">SALVAR</button>
+  <button onclick="salvarPlanta()">ENVIAR PARA APROVAÇÃO</button>
 
 </div>
 <script>
-  function salvarPlanta(){
-    const nome = 
-    document.querySelectorAll("input")
-  [0].value;
-  const especie =
-  document.querySelectorAll("input")
-  [1].value;
-  const categoria =
-  document.querySelector("select").value;
-  if(nome === "" || especie === "") {
-    alert("preencha os campos!");
-    return;
+  if(!localStorage.getItem("usuarioLogado")){
+    window.location.href = "login.html";
   }
-  alert("planta salva com sucesso");
-  window.location.href = "index.html";
+
+  let fotoBase64 = "";
+  let stream = null;
+
+  function usarArquivo(){
+    document.getElementById("inputArquivo").click();
+  }
+
+  function previewArquivo(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      fotoBase64 = e.target.result;
+      document.getElementById("preview").src = fotoBase64;
+      document.getElementById("preview").style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function abrirCamera(){
+    const cameraArea = document.getElementById("cameraArea");
+    cameraArea.style.display = "block";
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false })
+      .then(function(s){
+        stream = s;
+        document.getElementById("video").srcObject = s;
+      })
+      .catch(function(){
+        alert("Não foi possível acessar a câmera. Verifique as permissões do navegador.");
+        cameraArea.style.display = "none";
+      });
+  }
+
+  function tirarFoto(){
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0);
+    fotoBase64 = canvas.toDataURL("image/jpeg");
+    document.getElementById("preview").src = fotoBase64;
+    document.getElementById("preview").style.display = "block";
+    fecharCamera();
+  }
+
+  function fecharCamera(){
+    if(stream){
+      stream.getTracks().forEach(t => t.stop());
+      stream = null;
+    }
+    document.getElementById("cameraArea").style.display = "none";
+  }
+
+  function salvarPlanta(){
+    const nome = document.getElementById("nome").value;
+    const especie = document.getElementById("especie").value;
+    const categoria = document.getElementById("categoria").value;
+    const local = document.getElementById("local").value;
+    const observacoes = document.getElementById("observacoes").value;
+
+    if(nome === "" || especie === "") {
+      alert("Preencha os campos obrigatórios (Nome e Espécie)!");
+      return;
+    }
+
+    const plantasPendentes = JSON.parse(localStorage.getItem("plantasPendentes")) || [];
+
+    const novaPlanta = {
+      nome: nome,
+      especie: especie,
+      categoria: categoria,
+      local: local,
+      observacoes: observacoes,
+      foto: fotoBase64,
+      dataCadastro: new Date().toLocaleDateString()
+    };
+
+    plantasPendentes.push(novaPlanta);
+    localStorage.setItem("plantasPendentes", JSON.stringify(plantasPendentes));
+
+    alert("Planta enviada para aprovação do administrador!");
+    window.location.href = "index.html";
   }
 </script>
+<script src="chat.js"></script>
 </body>
 </html>

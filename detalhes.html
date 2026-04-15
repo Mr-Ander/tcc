@@ -8,21 +8,58 @@
 
 <div class="box">
 
-  <img src="img/planta1.jpg" class="img">
+  <button onclick="voltar()" class="btn-voltar">← Voltar</button>
 
-  <h2>Nome: X</h2>
-  <p>Espécie: Y</p>
-  <p>Categoria: Z</p>
+  <img src="img/planta1.jpg" class="img" id="imgPlanta">
+
+  <h2 id="nomePlanta">Nome: X</h2>
+  <p id="especiePlanta">Espécie: Y</p>
+  <p id="categoriaPlanta">Categoria: Z</p>
+  <p id="localPlanta">Local: -</p>
 
   <hr>
 
   <h3>Histórico / Observações</h3>
-  <p>- Cadastrada em...</p>
-  <p>- Atualizações...</p>
-
-  <button class="editar">EDITAR</button>
+  <p id="dataCadastro">- Cadastrada em...</p>
+  <p id="dataAprovacao">- Aprovada em...</p>
+  <p id="observacoes">- Observações...</p>
 
 </div>
 
+<script>
+if(!localStorage.getItem("usuarioLogado")){
+  window.location.href = "login.html";
+}
+
+function carregarDetalhes(){
+  const index = localStorage.getItem("plantaSelecionada");
+  const plantasAprovadas = JSON.parse(localStorage.getItem("plantasAprovadas")) || [];
+  
+  if(index === null || plantasAprovadas.length === 0){
+    alert("Planta não encontrada!");
+    window.location.href = "index.html";
+    return;
+  }
+  
+  const planta = plantasAprovadas[index];
+  
+  document.getElementById("nomePlanta").textContent = "Nome: " + planta.nome;
+  document.getElementById("especiePlanta").textContent = "Espécie: " + planta.especie;
+  document.getElementById("categoriaPlanta").textContent = "Categoria: " + planta.categoria;
+  document.getElementById("localPlanta").textContent = "Local de coleta: " + (planta.local || "Não informado");
+  document.getElementById("dataCadastro").textContent = "- Cadastrada em: " + (planta.dataCadastro || "N/A");
+  document.getElementById("dataAprovacao").textContent = "- Aprovada em: " + (planta.dataAprovacao || "N/A");
+  document.getElementById("observacoes").textContent = "- Observações: " + (planta.observacoes || "Nenhuma");
+  const img = document.getElementById("imgPlanta");
+  if(planta.foto){ img.src = planta.foto; } else { img.src = "img/planta" + ((parseInt(index) % 3) + 1) + ".jpg"; }
+}
+
+function voltar(){
+  window.location.href = "index.html";
+}
+
+carregarDetalhes();
+</script>
+<script src="chat.js"></script>
 </body>
 </html>

@@ -19,11 +19,16 @@ body {
   border-radius: 15px;
 }
 
-.editar {
-  width: 100%;
-  padding: 15px;
-  background: #0d5c3b;
+.btn-voltar {
+  padding: 10px 20px;
+  background: #666;
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.btn-voltar:hover {
+  background: #555;
 }

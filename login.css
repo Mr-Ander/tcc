@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(#1c8f4d, #0f5f34);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-box {
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.logo {
+  text-align: center;
+  font-size: 52px;
+  margin-bottom: 5px;
+}
+
+.login-box h1 {
+  text-align: center;
+  color: #0d5c3b;
+  margin: 0 0 8px 0;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin: 0 0 25px 0;
+}
+
+.btn-escolha {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 15px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: opacity 0.2s;
+}
+
+.btn-escolha:hover {
+  opacity: 0.88;
+}
+
+.btn-pessoa {
+  background: #2ea36a;
+  color: white;
+}
+
+.btn-admin {
+  background: #0d5c3b;
+  color: white;
+}
+
+.btn-icone {
+  font-size: 24px;
+}
+
+.btn-voltar {
+  width: auto;
+  padding: 6px 14px;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  color: #555;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.btn-voltar:hover {
+  background: #f0f0f0;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+button:not(.btn-voltar):not(.btn-escolha) {
+  width: 100%;
+  padding: 15px;
+  background: #0d5c3b;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+button:not(.btn-voltar):not(.btn-escolha):hover {
+  background: #0a4528;
+}
+
+.erro {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  min-height: 20px;
+}

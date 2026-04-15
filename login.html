@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Plantas - Entrar</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="login-box" id="tela-escolha">
+  <div class="logo">&#127807;</div>
+  <h1>Plantas</h1>
+  <p class="subtitulo">Como deseja entrar?</p>
+
+  <button onclick="mostrarLoginPessoa()" class="btn-escolha btn-pessoa">
+    <span class="btn-icone">&#128100;</span>
+    Sou Pessoa
+  </button>
+
+  <button onclick="mostrarLoginAdmin()" class="btn-escolha btn-admin">
+    <span class="btn-icone">&#128274;</span>
+    Sou Administrador
+  </button>
+</div>
+
+<div class="login-box" id="tela-pessoa" style="display:none">
+  <button onclick="voltarEscolha()" class="btn-voltar">&#8592; Voltar</button>
+  <div class="logo">&#128100;</div>
+  <h1>Seu nome</h1>
+  <p class="subtitulo">Como quer ser chamado no site?</p>
+
+  <label>Nome:</label>
+  <input type="text" id="pessoa-nome" placeholder="Digite seu nome ou apelido" maxlength="30">
+
+  <button onclick="entrarComoPessoa()">ENTRAR</button>
+  <p class="erro" id="erro-pessoa"></p>
+</div>
+
+<div class="login-box" id="tela-admin" style="display:none">
+  <button onclick="voltarEscolha()" class="btn-voltar">&#8592; Voltar</button>
+  <div class="logo">&#128274;</div>
+  <h1>Administrador</h1>
+
+  <label>Email:</label>
+  <input type="email" id="admin-email" placeholder="Digite seu email">
+
+  <label>Senha:</label>
+  <input type="password" id="admin-senha" placeholder="Digite sua senha">
+
+  <button onclick="entrarComoAdmin()">ENTRAR</button>
+  <p class="erro" id="erro-admin"></p>
+</div>
+
+<script>
+function mostrarLoginPessoa(){
+  document.getElementById("tela-escolha").style.display = "none";
+  document.getElementById("tela-pessoa").style.display = "block";
+  document.getElementById("pessoa-nome").focus();
+}
+
+function mostrarLoginAdmin(){
+  document.getElementById("tela-escolha").style.display = "none";
+  document.getElementById("tela-admin").style.display = "block";
+  document.getElementById("admin-email").focus();
+}
+
+function voltarEscolha(){
+  document.getElementById("tela-pessoa").style.display = "none";
+  document.getElementById("tela-admin").style.display = "none";
+  document.getElementById("tela-escolha").style.display = "block";
+}
+
+function entrarComoPessoa(){
+  const nome = document.getElementById("pessoa-nome").value.trim();
+  if(nome.length < 2){
+    document.getElementById("erro-pessoa").textContent = "Digite um nome com pelo menos 2 caracteres!";
+    return;
+  }
+  localStorage.setItem("usuarioLogado", "true");
+  localStorage.setItem("usuarioNome", nome);
+  localStorage.setItem("chatNome", nome);
+  localStorage.removeItem("adminLogado");
+  window.location.href = "index.html";
+}
+
+function entrarComoAdmin(){
+  const email = document.getElementById("admin-email").value;
+  const senha = document.getElementById("admin-senha").value;
+
+  if(email === "" || senha === ""){
+    document.getElementById("erro-admin").textContent = "Preencha todos os campos!";
+    return;
+  }
+
+  let admins = JSON.parse(localStorage.getItem("admins")) || [];
+  if(admins.length === 0){
+    admins.push({email: "admin@plantas.com", senha: "admin123"});
+    localStorage.setItem("admins", JSON.stringify(admins));
+  }
+
+  const encontrado = admins.find(function(adm){ return adm.email === email && adm.senha === senha; });
+
+  if(encontrado){
+    localStorage.setItem("adminLogado", "true");
+    localStorage.setItem("usuarioLogado", "true");
+    localStorage.setItem("usuarioNome", "Administrador");
+    localStorage.setItem("chatNome", "Administrador");
+    window.location.href = "painel-admin.html";
+  } else {
+    document.getElementById("erro-admin").textContent = "Email ou senha incorretos!";
+  }
+}
+
+document.getElementById("pessoa-nome").addEventListener("keydown", function(e){
+  if(e.key === "Enter") entrarComoPessoa();
+});
+
+document.getElementById("admin-senha").addEventListener("keydown", function(e){
+  if(e.key === "Enter") entrarComoAdmin();
+});
+</script>
+
+</body>
+</html>
