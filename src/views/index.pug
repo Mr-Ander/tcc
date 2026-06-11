@@ -1,0 +1,35 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/style.css")
+
+block content
+  // Imagens decorativas
+  img.planta-decor.planta-topo(src="https://static.vecteezy.com/system/resources/thumbnails/035/003/294/small_2x/realistic-forest-isolated-on-transparent-background-3d-rendering-illustration-png.png" alt="" aria-hidden="true")
+  img.planta-decor.planta-baixo(src="https://static.vecteezy.com/system/resources/previews/047/526/751/non_2x/tropical-green-leaves-illustration-lush-foliage-design-free-png.png" alt="" aria-hidden="true")
+
+  .container
+    .search-bar
+      label.sr-only(for="searchInput" style="display:none") Buscar planta
+      input#searchInput.search(placeholder="Buscar planta" type="search")
+    
+    .top-bar
+      span#usuarioNomeSpan.usuario-nome
+      button.btn-sair-index(onclick="sair()") Sair
+
+    #camera-pesquisa-area(style="display:none")
+      video#camera-pesquisa-video(autoplay playsinline)
+      canvas#camera-pesquisa-canvas(style="display:none")
+      .camera-pesquisa-btns
+        button(onclick="capturarPesquisa()") Capturar
+        button.btn-cancelar-pesquisa(onclick="fecharCameraPesquisa()") Cancelar
+
+    #listaPlantas
+
+    p#mensagemVazio(style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;")
+      | Nenhuma planta aprovada ainda
+
+    button.add(onclick="irCadastro()") + Adicionar Planta
+
+block scripts
+  script(src="/js/index.js")

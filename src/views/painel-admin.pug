@@ -1,0 +1,27 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/painel-admin.css")
+
+block content
+  .container
+    .header
+      h1 Painel Administrativo
+      button.btn-sair(onclick="sairAdmin()") SAIR
+
+    .menu
+      .menu-item(onclick="irPendentes()" role="button" tabindex="0")
+        h2 Plantas Pendentes
+        p#totalPendentes 0 plantas aguardando aprovação
+
+      .menu-item(onclick="irGerenciarAdmins()" role="button" tabindex="0")
+        h2 Gerenciar Administradores
+        p Adicionar ou remover administradores
+
+      .menu-item(onclick="irIndex()" role="button" tabindex="0")
+        h2 Ver Plantas Aprovadas
+        p Visualizar catálogo de plantas
+
+block scripts
+  script(src="/js/admin-base.js")
+  script(src="/js/painel-admin.js")

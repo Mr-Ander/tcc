@@ -1,0 +1,49 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/cadastro.css")
+
+block content
+  .form
+    button.btn-voltar(onclick="voltar()") &#8592; Voltar
+
+    h1 Cadastro de Planta
+
+    label(for="nome") Nome:
+    input#nome(type="text" required)
+
+    label(for="especie") Espécie:
+    input#especie(type="text" required)
+
+    label(for="categoria") Categoria:
+    select#categoria
+      option(value="Tóxicas") Tóxicas
+      option(value="Não tenho certeza") Não tenho certeza
+      option(value="Medicinais") Medicinais
+      option(value="Ornamentais") Ornamentais
+      option(value="Alimentícias") Alimentícias
+
+    label(for="local") Local de coleta:
+    input#local(type="text")
+
+    label Foto:
+    .foto-opcoes
+      button.btn-foto(type="button" onclick="usarArquivo()") Escolher Arquivo
+      button.btn-foto(type="button" onclick="abrirCamera()") Usar Câmera
+    input#inputArquivo(type="file" accept="image/*" style="display:none" onchange="previewArquivo(event)")
+
+    #cameraArea(style="display:none")
+      video#video(autoplay playsinline aria-label="Visualização da câmera")
+      button.btn-capturar(type="button" onclick="tirarFoto()") TIRAR FOTO
+      button.btn-cancelar-cam(type="button" onclick="fecharCamera()") Cancelar
+
+    canvas#canvas(style="display:none")
+    img#preview(style="display:none; width:100%; border-radius:10px; margin-bottom:10px;" alt="Pré-visualização da foto da planta")
+
+    label(for="observacoes") Observações:
+    input#observacoes(type="text")
+
+    button.btn-enviar(onclick="salvarPlanta()") ENVIAR PARA APROVAÇÃO
+
+block scripts
+  script(src="/js/cadastro.js")

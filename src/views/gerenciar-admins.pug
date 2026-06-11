@@ -1,0 +1,29 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/gerenciar-admins.css")
+
+block content
+  .container
+    .header
+      button.btn-voltar(onclick="voltarPainel()") &#8592; Voltar
+      h1 Gerenciar Administradores
+
+    .form-adicionar
+      h2 Adicionar Novo Administrador
+      label(for="novoEmail") Email:
+      input#novoEmail(type="email" placeholder="admin@exemplo.com")
+      
+      label(for="novaSenha") Senha:
+      input#novaSenha(type="password" placeholder="Digite a senha")
+      
+      button(onclick="adicionarAdmin()") ADICIONAR ADMINISTRADOR
+      p#mensagemAdd.mensagem(aria-live="polite")
+
+    .lista-admins
+      h2 Administradores Cadastrados
+      #listaAdmins
+
+block scripts
+  script(src="/js/admin-base.js")
+  script(src="/js/gerenciar-admins.js")

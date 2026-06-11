@@ -1,0 +1,82 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/login.css")
+
+block content
+  // Tela de Escolha
+  #tela-escolha.login-box
+    .logo(aria-hidden="true") &#127807;
+    h1 Conecta Botanica
+    p.subtitulo Como deseja entrar?
+
+    button.btn-escolha.btn-pessoa(onclick="mostrarLoginPessoa()")
+      span.btn-icone(aria-hidden="true") &#128100;
+      | Sou Membro
+
+    button.btn-escolha.btn-admin(onclick="mostrarLoginAdmin()")
+      span.btn-icone(aria-hidden="true") &#128274;
+      | Sou Administrador
+    
+    p.cadastro-link
+      | Não tem conta? 
+      a(href="#" onclick="mostrarCadastro()") Cadastre-se
+
+  // Tela de Login Pessoa
+  #tela-pessoa.login-box(style="display:none")
+    button.btn-voltar(onclick="voltarEscolha()") &#8592; Voltar
+    .logo(aria-hidden="true") &#128100;
+    h1 Entrar
+    p.subtitulo Digite seu email e senha
+
+    label(for="pessoa-email") Email:
+    input#pessoa-email(type="email" placeholder="Digite seu email")
+
+    label(for="pessoa-senha") Senha:
+    input#pessoa-senha(type="password" placeholder="Digite sua senha")
+
+    button(onclick="entrarComoPessoa()") ENTRAR
+    p#erro-pessoa.erro(aria-live="polite")
+
+  // Tela de Cadastro
+  #tela-cadastro.login-box(style="display:none")
+    button.btn-voltar(onclick="voltarEscolha()") &#8592; Voltar
+    .logo(aria-hidden="true") &#128100;
+    h1 Cadastre-se
+    p.subtitulo Crie sua conta
+
+    label(for="cadastro-username") Username:
+    input#cadastro-username(type="text" placeholder="Como quer ser chamado (nickname)" maxlength="20")
+
+    label(for="cadastro-nome") Nome:
+    input#cadastro-nome(type="text" placeholder="Seu nome completo" maxlength="50")
+
+    label(for="cadastro-email") Email:
+    input#cadastro-email(type="email" placeholder="Seu email")
+
+    label(for="cadastro-senha") Senha:
+    input#cadastro-senha(type="password" placeholder="Crie uma senha")
+
+    label(for="cadastro-confirmar") Confirmar Senha:
+    input#cadastro-confirmar(type="password" placeholder="Repita a senha")
+
+    button(onclick="cadastrarUsuario()") CADASTRAR
+    p#erro-cadastro.erro(aria-live="polite")
+
+  // Tela de Login Admin
+  #tela-admin.login-box(style="display:none")
+    button.btn-voltar(onclick="voltarEscolha()") &#8592; Voltar
+    .logo(aria-hidden="true") &#128274;
+    h1 Administrador
+
+    label(for="admin-email") Email:
+    input#admin-email(type="email" placeholder="Digite seu email")
+
+    label(for="admin-senha") Senha:
+    input#admin-senha(type="password" placeholder="Digite sua senha")
+
+    button(onclick="entrarComoAdmin()") ENTRAR
+    p#erro-admin.erro(aria-live="polite")
+
+block scripts
+  script(src="/js/login.js")

@@ -1,0 +1,43 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/detalhes.css")
+
+block content
+  .box
+    button.btn-voltar(onclick="voltar()") &#8592; Voltar
+
+    img#imgPlanta.img(src="/img/planta1.jpg" alt="Foto da planta")
+
+    h2#nomePlanta Carregando...
+    p#especiePlanta.info-p
+      span 🌿
+      |  Espécie: -
+    p#categoriaPlanta.info-p
+      span 🏷️
+      |  Categoria: -
+    p#localPlanta.info-p
+      span 📍
+      |  Local: -
+
+    hr
+
+    h3 Histórico e Notas
+    
+    .timeline
+      .timeline-item
+        .timeline-content
+          span.timeline-label Data de Cadastro
+          span#dataCadastro.timeline-value -
+      .timeline-item
+        .timeline-content
+          span.timeline-label Data de Aprovação
+          span#dataAprovacao.timeline-value -
+
+    .observations-card
+      span.observations-title Notas de Campo
+      p#observacoes Nenhuma observação registrada.
+
+block scripts
+  script(src="/js/detalhes.js")
+  script(src="/js/comentarios.js")

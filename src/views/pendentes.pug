@@ -1,0 +1,19 @@
+extends layout
+
+block styles
+  link(rel="stylesheet" href="/css/pendentes.css")
+
+block content
+  .container
+    .header
+      button.btn-voltar(onclick="voltarPainel()") &#8592; Voltar
+      h1 Plantas Pendentes
+
+    #listaPendentes
+
+    p#mensagemVazio(style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;")
+      | Nenhuma planta pendente de aprovação
+
+block scripts
+  script(src="/js/admin-base.js")
+  script(src="/js/pendentes.js")
