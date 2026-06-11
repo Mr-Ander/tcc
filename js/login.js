@@ -107,10 +107,10 @@ async function entrarComoPessoa() {
             localStorage.setItem("usuarioId", data.id);
             if (data.is_admin) {
                 localStorage.setItem("adminLogado", "true");
-                window.location.href = "painel-admin.html";
+                window.location.href = "/painel-admin";
             } else {
                 localStorage.removeItem("adminLogado");
-                window.location.href = "index.html";
+                window.location.href = "/";
             }
         } else {
             erro.textContent = data.error || "Email ou senha incorretos!";
@@ -148,7 +148,7 @@ async function entrarComoAdmin() {
                 localStorage.setItem("usuarioNomeCompleto", data.nome);
                 localStorage.setItem("usuarioEmail", data.email);
                 localStorage.setItem("usuarioId", data.id);
-                window.location.href = "painel-admin.html";
+                window.location.href = "/painel-admin";
             } else {
                 erro.textContent = "Este usuário não tem permissão de administrador!";
             }

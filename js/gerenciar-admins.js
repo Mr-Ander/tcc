@@ -98,5 +98,5 @@ async function removerAdmin(id) {
 }
 
 function voltarPainel() {
-    window.location.href = "painel-admin.html";
+    window.location.href = "/painel-admin";
 }

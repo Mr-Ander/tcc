@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("usuarioLogado")) {
-        window.location.href = "login.html";
+        window.location.href = "/login";
     }
     carregarDetalhes();
 });
@@ -10,7 +10,7 @@ async function carregarDetalhes() {
 
     if (!id) {
         alert("Planta não encontrada!");
-        window.location.href = "index.html";
+        window.location.href = "/";
         return;
     }
 
@@ -19,7 +19,7 @@ async function carregarDetalhes() {
         if (!response) return;
         if (!response.ok) {
             alert("Planta não encontrada!");
-            window.location.href = "index.html";
+            window.location.href = "/";
             return;
         }
         const planta = await response.json();
@@ -52,5 +52,5 @@ async function carregarDetalhes() {
 }
 
 function voltar() {
-    window.location.href = "index.html";
+    window.location.href = "/";
 }

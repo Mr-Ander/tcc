@@ -3,12 +3,12 @@ let stream = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("usuarioLogado")) {
-        window.location.href = "login.html";
+        window.location.href = "/login";
     }
 });
 
 function voltar() {
-    window.location.href = "index.html";
+    window.location.href = "/";
 }
 
 function usarArquivo() {
@@ -66,7 +66,7 @@ function fecharCamera() {
 async function salvarPlanta() {
     if (!localStorage.getItem("usuarioLogado")) {
         alert("Você precisa fazer login para cadastrar uma planta!");
-        window.location.href = "login.html";
+        window.location.href = "/login";
         return;
     }
 
@@ -97,7 +97,7 @@ async function salvarPlanta() {
 
         if (response && response.ok) {
             alert("Planta enviada para aprovação do administrador!");
-            window.location.href = "index.html";
+            window.location.href = "/";
         } else {
             const data = await response.json();
             alert(data.error || "Erro ao salvar planta.");

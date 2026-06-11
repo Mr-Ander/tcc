@@ -106,7 +106,7 @@
     function enviarComentario() {
         if (!localStorage.getItem("usuarioLogado")) {
             alert("Você precisa fazer login para comentar!");
-            window.location.href = "login.html";
+            window.location.href = "/login";
             return;
         }
         

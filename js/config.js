@@ -23,7 +23,7 @@ async function authenticatedFetch(url, options = {}) {
     if (response.status === 401) {
         // Token expirado ou inválido
         localStorage.clear();
-        window.location.href = "login.html";
+        window.location.href = "/login";
         return;
     }
     

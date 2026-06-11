@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("usuarioLogado")) {
-        window.location.href = "login.html";
+        window.location.href = "/login";
     }
 
     const usuarioNome = localStorage.getItem("usuarioNome") || "";
@@ -19,7 +19,7 @@ function sair() {
     localStorage.removeItem("usuarioNomeCompleto");
     localStorage.removeItem("usuarioEmail");
     localStorage.removeItem("usuarioId");
-    window.location.href = "login.html";
+    window.location.href = "/login";
 }
 
 async function carregarPlantas() {
@@ -83,9 +83,9 @@ async function carregarPlantas() {
 
 function irDetalhes(id) {
     localStorage.setItem("plantaSelecionada", id);
-    window.location.href = "detalhes.html";
+    window.location.href = "/detalhes";
 }
 
 function irCadastro() {
-    window.location.href = "cadastro.html";
+    window.location.href = "/cadastro";
 }

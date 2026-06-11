@@ -21,6 +21,10 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Arquivos Estáticos (CSS, JS, Imagens)
+app.use('/css', express.static(path.join(__dirname, '../css')));
+app.use('/js', express.static(path.join(__dirname, '../js')));
+app.use('/img', express.static(path.join(__dirname, '../img')));
+// Servir arquivos da raiz (como manifestos ou favicon se existirem)
 app.use(express.static(path.join(__dirname, '../')));
 
 // Rotas de Visualização (SSR)
