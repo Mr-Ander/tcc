@@ -2,64 +2,49 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="detalhes.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes da Planta - Conecta Botânica</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/detalhes.css">
 </head>
 <body>
+  <div class="box">
+    <button onclick="voltar()" class="btn-voltar">&#8592; Voltar</button>
 
-<div class="box">
+    <img src="img/planta1.jpg" class="img" id="imgPlanta" alt="Foto da planta">
 
-  <button onclick="voltar()" class="btn-voltar">← Voltar</button>
+    <h2 id="nomePlanta">Carregando...</h2>
+    <p class="info-p" id="especiePlanta"><span>🌿</span> Espécie: -</p>
+    <p class="info-p" id="categoriaPlanta"><span>🏷️</span> Categoria: -</p>
+    <p class="info-p" id="localPlanta"><span>📍</span> Local: -</p>
 
-  <img src="img/planta1.jpg" class="img" id="imgPlanta">
+    <hr>
 
-  <h2 id="nomePlanta">Nome: X</h2>
-  <p id="especiePlanta">Espécie: Y</p>
-  <p id="categoriaPlanta">Categoria: Z</p>
-  <p id="localPlanta">Local: -</p>
+    <h3>Histórico e Notas</h3>
+    
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-label">Data de Cadastro</span>
+          <span class="timeline-value" id="dataCadastro">-</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-label">Data de Aprovação</span>
+          <span class="timeline-value" id="dataAprovacao">-</span>
+        </div>
+      </div>
+    </div>
 
-  <hr>
+    <div class="observations-card">
+      <span class="observations-title">Notas de Campo</span>
+      <p id="observacoes">Nenhuma observação registrada.</p>
+    </div>
+  </div>
 
-  <h3>Histórico / Observações</h3>
-  <p id="dataCadastro">- Cadastrada em...</p>
-  <p id="dataAprovacao">- Aprovada em...</p>
-  <p id="observacoes">- Observações...</p>
-
-</div>
-
-<script>
-if(!localStorage.getItem("usuarioLogado")){
-  window.location.href = "login.html";
-}
-
-function carregarDetalhes(){
-  const index = localStorage.getItem("plantaSelecionada");
-  const plantasAprovadas = JSON.parse(localStorage.getItem("plantasAprovadas")) || [];
-  
-  if(index === null || plantasAprovadas.length === 0){
-    alert("Planta não encontrada!");
-    window.location.href = "index.html";
-    return;
-  }
-  
-  const planta = plantasAprovadas[index];
-  
-  document.getElementById("nomePlanta").textContent = "Nome: " + planta.nome;
-  document.getElementById("especiePlanta").textContent = "Espécie: " + planta.especie;
-  document.getElementById("categoriaPlanta").textContent = "Categoria: " + planta.categoria;
-  document.getElementById("localPlanta").textContent = "Local de coleta: " + (planta.local || "Não informado");
-  document.getElementById("dataCadastro").textContent = "- Cadastrada em: " + (planta.dataCadastro || "N/A");
-  document.getElementById("dataAprovacao").textContent = "- Aprovada em: " + (planta.dataAprovacao || "N/A");
-  document.getElementById("observacoes").textContent = "- Observações: " + (planta.observacoes || "Nenhuma");
-  const img = document.getElementById("imgPlanta");
-  if(planta.foto){ img.src = planta.foto; } else { img.src = "img/planta" + ((parseInt(index) % 3) + 1) + ".jpg"; }
-}
-
-function voltar(){
-  window.location.href = "index.html";
-}
-
-carregarDetalhes();
-</script>
-<script src="chat.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/detalhes.js"></script>
+  <script src="js/comentarios.js"></script>
 </body>
 </html>

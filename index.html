@@ -2,153 +2,46 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Plantas</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plantas - Conecta Botânica</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Imagens decorativas -->
+  <img src="https://static.vecteezy.com/system/resources/thumbnails/035/003/294/small_2x/realistic-forest-isolated-on-transparent-background-3d-rendering-illustration-png.png" class="planta-decor planta-topo" alt="" aria-hidden="true">
+  <img src="https://static.vecteezy.com/system/resources/previews/047/526/751/non_2x/tropical-green-leaves-illustration-lush-foliage-design-free-png.png" class="planta-decor planta-baixo" alt="" aria-hidden="true">
 
-<div class="container">
-
-  <div class="search-bar">
-    <input class="search" placeholder="Buscar planta" id="searchInput">
-    <button class="btn-camera-pesquisa" onclick="abrirCameraPesquisa()" title="Identificar planta pela c\u00e2mera">&#128247;</button>
-  </div>
-  <div class="top-bar">
-    <span class="usuario-nome" id="usuarioNomeSpan"></span>
-    <button onclick="sair()" class="btn-sair-index">Sair</button>
-  </div>
-
-  <div id="camera-pesquisa-area" style="display:none">
-    <video id="camera-pesquisa-video" autoplay playsinline></video>
-    <canvas id="camera-pesquisa-canvas" style="display:none"></canvas>
-    <div class="camera-pesquisa-btns">
-      <button onclick="capturarPesquisa()">Capturar</button>
-      <button onclick="fecharCameraPesquisa()" class="btn-cancelar-pesquisa">Cancelar</button>
+  <div class="container">
+    <div class="search-bar">
+      <label for="searchInput" class="sr-only" style="display:none">Buscar planta</label>
+      <input class="search" placeholder="Buscar planta" id="searchInput" type="search">
     </div>
-    <div id="camera-pesquisa-preview" style="display:none">
-      <img id="camera-pesquisa-img">
-      <p id="camera-ia-msg">Imagem capturada. Adicione sua IA aqui para identificar a planta.</p>
-      <button onclick="fecharCameraPesquisa()">Fechar</button>
+    
+    <div class="top-bar">
+      <span class="usuario-nome" id="usuarioNomeSpan"></span>
+      <button onclick="sair()" class="btn-sair-index">Sair</button>
     </div>
-  </div>
 
-  <div id="listaPlantas"></div>
-
-  <p id="mensagemVazio" style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;">
-    Nenhuma planta aprovada ainda
-  </p>
-
-  <button onclick="irCadastro()" class="add">+ Adicionar Planta</button>
-
-</div>
-
-<script>
-if(!localStorage.getItem("usuarioLogado")){
-  window.location.href = "login.html";
-}
-
-document.getElementById("usuarioNomeSpan").textContent = "Olá, " + (localStorage.getItem("usuarioNome") || "");
-
-function sair(){
-  localStorage.removeItem("usuarioLogado");
-  localStorage.removeItem("adminLogado");
-  localStorage.removeItem("usuarioNome");
-  window.location.href = "login.html";
-}
-
-function carregarPlantas(){
-  const plantasAprovadas = JSON.parse(localStorage.getItem("plantasAprovadas")) || [];
-  const container = document.getElementById("listaPlantas");
-  
-  if(plantasAprovadas.length === 0){
-    document.getElementById("mensagemVazio").style.display = "block";
-    return;
-  }
-  
-  document.getElementById("mensagemVazio").style.display = "none";
-  container.innerHTML = "";
-  
-  plantasAprovadas.forEach((planta, index) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${planta.foto || 'img/planta' + ((index % 3) + 1) + '.jpg'}" onerror="this.src='img/planta${(index % 3) + 1}.jpg'">
-      <div class="info">
-        <h2>${planta.nome}</h2>
-        <p><span class="status ${planta.status || 'green'}"></span>${planta.especie}</p>
+    <div id="camera-pesquisa-area" style="display:none">
+      <video id="camera-pesquisa-video" autoplay playsinline></video>
+      <canvas id="camera-pesquisa-canvas" style="display:none"></canvas>
+      <div class="camera-pesquisa-btns">
+        <button onclick="capturarPesquisa()">Capturar</button>
+        <button onclick="fecharCameraPesquisa()" class="btn-cancelar-pesquisa">Cancelar</button>
       </div>
-      <button onclick="irDetalhes(${index})" class="btn">Detalhes</button>
-    `;
-    container.appendChild(card);
-  });
-}
+    </div>
 
-function irDetalhes(index){
-  localStorage.setItem("plantaSelecionada", index);
-  window.location.href = "detalhes.html";
-}
+    <div id="listaPlantas"></div>
 
-function irCadastro(){
-  window.location.href = "cadastro.html";
-}
+    <p id="mensagemVazio" style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;">
+      Nenhuma planta aprovada ainda
+    </p>
 
-let streamPesquisa = null;
+    <button onclick="irCadastro()" class="add">+ Adicionar Planta</button>
+  </div>
 
-function abrirCameraPesquisa(){
-  const area = document.getElementById("camera-pesquisa-area");
-  area.style.display = "block";
-  document.getElementById("camera-pesquisa-preview").style.display = "none";
-  document.getElementById("camera-pesquisa-video").style.display = "block";
-  document.querySelector(".camera-pesquisa-btns").style.display = "flex";
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false })
-    .then(function(s){
-      streamPesquisa = s;
-      document.getElementById("camera-pesquisa-video").srcObject = s;
-    })
-    .catch(function(){
-      alert("Não foi possível acessar a câmera. Verifique as permissões do navegador.");
-      fecharCameraPesquisa();
-    });
-}
-
-function capturarPesquisa(){
-  const video = document.getElementById("camera-pesquisa-video");
-  const canvas = document.getElementById("camera-pesquisa-canvas");
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext("2d").drawImage(video, 0, 0);
-  const foto = canvas.toDataURL("image/jpeg", 0.8);
-
-  if(streamPesquisa){
-    streamPesquisa.getTracks().forEach(function(t){ t.stop(); });
-    streamPesquisa = null;
-  }
-
-  document.getElementById("camera-pesquisa-video").style.display = "none";
-  document.querySelector(".camera-pesquisa-btns").style.display = "none";
-  document.getElementById("camera-pesquisa-img").src = foto;
-  document.getElementById("camera-pesquisa-preview").style.display = "block";
-
-  /* === PONTO DE INTEGRAÇÃO DA IA ===
-     A variável `foto` contém a imagem em base64 (image/jpeg).
-     Chame sua API de IA aqui passando `foto` para identificar a planta.
-     Exemplo:
-       identificarPlantaComIA(foto).then(resultado => {
-         document.getElementById("camera-ia-msg").textContent = resultado;
-       });
-  */
-}
-
-function fecharCameraPesquisa(){
-  if(streamPesquisa){
-    streamPesquisa.getTracks().forEach(function(t){ t.stop(); });
-    streamPesquisa = null;
-  }
-  document.getElementById("camera-pesquisa-area").style.display = "none";
-}
-
-carregarPlantas();
-</script>
-<script src="chat.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>

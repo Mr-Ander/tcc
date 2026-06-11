@@ -2,99 +2,26 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Plantas Pendentes</title>
-  <link rel="stylesheet" href="pendentes.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plantas Pendentes - Conecta Botânica</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/pendentes.css">
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <button onclick="voltarPainel()" class="btn-voltar">&#8592; Voltar</button>
+      <h1>Plantas Pendentes</h1>
+    </div>
 
-<div class="container">
-  <div class="header">
-    <button onclick="voltarPainel()" class="btn-voltar">← Voltar</button>
-    <h1>Plantas Pendentes</h1>
+    <div id="listaPendentes"></div>
+
+    <p id="mensagemVazio" style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;">
+      Nenhuma planta pendente de aprovação
+    </p>
   </div>
 
-  <div id="listaPendentes"></div>
-
-  <p id="mensagemVazio" style="display:none; text-align:center; color:white; margin-top:50px; font-size:18px;">
-    Nenhuma planta pendente de aprovação
-  </p>
-</div>
-
-<script>
-function verificarLogin(){
-  const logado = localStorage.getItem("adminLogado");
-  if(!logado || logado !== "true"){
-    window.location.href = "login.html";
-  }
-}
-
-function carregarPendentes(){
-  const plantasPendentes = JSON.parse(localStorage.getItem("plantasPendentes")) || [];
-  const container = document.getElementById("listaPendentes");
-  
-  if(plantasPendentes.length === 0){
-    document.getElementById("mensagemVazio").style.display = "block";
-    return;
-  }
-  
-  container.innerHTML = "";
-  
-  plantasPendentes.forEach((planta, index) => {
-    const card = document.createElement("div");
-    card.className = "card-pendente";
-    card.innerHTML = `
-      <h2>${planta.nome}</h2>
-      <p><strong>Espécie:</strong> ${planta.especie}</p>
-      <p><strong>Categoria:</strong> ${planta.categoria}</p>
-      <p><strong>Local de coleta:</strong> ${planta.local || "Não informado"}</p>
-      <p><strong>Observações:</strong> ${planta.observacoes || "Nenhuma"}</p>
-      <div class="acoes">
-        <button onclick="aprovarPlanta(${index})" class="btn-aprovar">APROVAR</button>
-        <button onclick="rejeitarPlanta(${index})" class="btn-rejeitar">REJEITAR</button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function aprovarPlanta(index){
-  const plantasPendentes = JSON.parse(localStorage.getItem("plantasPendentes")) || [];
-  const plantasAprovadas = JSON.parse(localStorage.getItem("plantasAprovadas")) || [];
-  
-  const planta = plantasPendentes[index];
-  planta.status = "green";
-  planta.dataAprovacao = new Date().toLocaleDateString();
-  
-  plantasAprovadas.push(planta);
-  plantasPendentes.splice(index, 1);
-  
-  localStorage.setItem("plantasAprovadas", JSON.stringify(plantasAprovadas));
-  localStorage.setItem("plantasPendentes", JSON.stringify(plantasPendentes));
-  
-  alert("Planta aprovada com sucesso!");
-  carregarPendentes();
-}
-
-function rejeitarPlanta(index){
-  if(!confirm("Tem certeza que deseja rejeitar esta planta?")){
-    return;
-  }
-  
-  const plantasPendentes = JSON.parse(localStorage.getItem("plantasPendentes")) || [];
-  plantasPendentes.splice(index, 1);
-  localStorage.setItem("plantasPendentes", JSON.stringify(plantasPendentes));
-  
-  alert("Planta rejeitada!");
-  carregarPendentes();
-}
-
-function voltarPainel(){
-  window.location.href = "painel-admin.html";
-}
-
-verificarLogin();
-carregarPendentes();
-</script>
-<script src="chat.js"></script>
-</body>
+  <script src="js/admin-base.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/pendentes.js"></script></body>
 </html>

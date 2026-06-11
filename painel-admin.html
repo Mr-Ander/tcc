@@ -2,68 +2,38 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Painel Administrativo</title>
-  <link rel="stylesheet" href="painel-admin.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - Conecta Botânica</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/painel-admin.css">
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <h1>Painel Administrativo</h1>
+      <button onclick="sairAdmin()" class="btn-sair">SAIR</button>
+    </div>
 
-<div class="container">
-  <div class="header">
-    <h1>Painel Administrativo</h1>
-    <button onclick="sair()" class="btn-sair">SAIR</button>
+    <div class="menu">
+      <div class="menu-item" onclick="irPendentes()" role="button" tabindex="0">
+        <h2>Plantas Pendentes</h2>
+        <p id="totalPendentes">0 plantas aguardando aprovação</p>
+      </div>
+
+      <div class="menu-item" onclick="irGerenciarAdmins()" role="button" tabindex="0">
+        <h2>Gerenciar Administradores</h2>
+        <p>Adicionar ou remover administradores</p>
+      </div>
+
+      <div class="menu-item" onclick="irIndex()" role="button" tabindex="0">
+        <h2>Ver Plantas Aprovadas</h2>
+        <p>Visualizar catálogo de plantas</p>
+      </div>
+    </div>
   </div>
 
-  <div class="menu">
-    <div class="menu-item" onclick="irPendentes()">
-      <h2>Plantas Pendentes</h2>
-      <p id="totalPendentes">0 plantas aguardando aprovação</p>
-    </div>
-
-    <div class="menu-item" onclick="irGerenciarAdmins()">
-      <h2>Gerenciar Administradores</h2>
-      <p>Adicionar ou remover administradores</p>
-    </div>
-
-    <div class="menu-item" onclick="irIndex()">
-      <h2>Ver Plantas Aprovadas</h2>
-      <p>Visualizar catálogo de plantas</p>
-    </div>
-  </div>
-</div>
-
-<script>
-function verificarLogin(){
-  const logado = localStorage.getItem("adminLogado");
-  if(!logado || logado !== "true"){
-    window.location.href = "login.html";
-  }
-}
-
-function atualizarContadores(){
-  const plantasPendentes = JSON.parse(localStorage.getItem("plantasPendentes")) || [];
-  document.getElementById("totalPendentes").textContent = plantasPendentes.length + " plantas aguardando aprovação";
-}
-
-function irPendentes(){
-  window.location.href = "pendentes.html";
-}
-
-function irGerenciarAdmins(){
-  window.location.href = "gerenciar-admins.html";
-}
-
-function irIndex(){
-  window.location.href = "index.html";
-}
-
-function sair(){
-  localStorage.removeItem("adminLogado");
-  window.location.href = "login.html";
-}
-
-verificarLogin();
-atualizarContadores();
-</script>
-<script src="chat.js"></script>
+  <script src="js/admin-base.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/painel-admin.js"></script>
 </body>
 </html>

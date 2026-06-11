@@ -1,0 +1,155 @@
+:root {
+  --leaf-green: #2e7d32;
+  --forest-dark: #1b5e20;
+  --earth-brown: #5d4037;
+  --soft-bg: #fdfdfd;
+  --timeline-line: #c8e6c9;
+}
+
+body {
+  margin: 0;
+  padding: 20px 0;
+}
+
+.box {
+  width: 90%;
+  max-width: 450px;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  margin-bottom: 50px;
+}
+
+.img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#nomePlanta {
+  color: var(--forest-dark);
+  font-size: 24px;
+  margin: 0 0 10px 0;
+}
+
+.info-p {
+  color: var(--earth-brown);
+  margin: 5px 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+h3 {
+  color: var(--forest-dark);
+  font-size: 18px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h3::before {
+  content: "📖";
+}
+
+/* Timeline Style */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 30px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  background: var(--timeline-line);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--leaf-green);
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 2px var(--timeline-line);
+  z-index: 1;
+}
+
+.timeline-content {
+  background: var(--soft-bg);
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.timeline-label {
+  font-size: 12px;
+  color: #888;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: block;
+}
+
+.timeline-value {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* Observations Card */
+.observations-card {
+  background: #fff9e6; /* Tom de papel envelhecido leve */
+  border-left: 5px solid #ffca28;
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
+}
+
+.observations-card::after {
+  content: "📝";
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  font-size: 20px;
+}
+
+.observations-title {
+  font-weight: bold;
+  color: #795548;
+  margin-bottom: 8px;
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+#observacoes {
+  font-style: italic;
+  color: #5d4037;
+  line-height: 1.6;
+  font-size: 15px;
+}

@@ -126,3 +126,31 @@ button:not(.btn-voltar):not(.btn-escolha):hover {
   font-size: 14px;
   min-height: 20px;
 }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background-image: 
+    url('https://images.stockcake.com/public/a/f/3/af31b86e-435e-4efb-9262-c59b56875938_large/autumn-leaves-heart-stockcake.jpg'),
+    url('https://media.istockphoto.com/id/1287268427/pt/foto/araucaria-at-sunset-in-curitiba.jpg?s=612x612&w=0&k=20&c=RxVLMbGjphuEQYbmwWgwZ1QKVl_-gsAf9fSCEz4COLY='),
+    url('https://media.istockphoto.com/id/1018767488/pt/foto/fern-against-the-light.jpg?s=612x612&w=0&k=20&c=2jBy7edOWAkBvt0JgcFln2bkWFfiGuVgF7_3b3RUIQg=');
+
+  background-size: 
+    1000px,
+    500px,
+    500px;
+
+  background-position: 
+    center center,
+    bottom right,
+    bottom left;
+
+  background-repeat: 
+    no-repeat,
+    no-repeat,
+    no-repeat;
+
+  opacity: 0.06;
+  z-index: -1;
+}

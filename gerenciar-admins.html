@@ -2,127 +2,37 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Gerenciar Administradores</title>
-  <link rel="stylesheet" href="gerenciar-admins.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciar Administradores - Conecta Botânica</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/gerenciar-admins.css">
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <button onclick="voltarPainel()" class="btn-voltar">&#8592; Voltar</button>
+      <h1>Gerenciar Administradores</h1>
+    </div>
 
-<div class="container">
-  <div class="header">
-    <button onclick="voltarPainel()" class="btn-voltar">← Voltar</button>
-    <h1>Gerenciar Administradores</h1>
+    <div class="form-adicionar">
+      <h2>Adicionar Novo Administrador</h2>
+      <label for="novoEmail">Email:</label>
+      <input type="email" id="novoEmail" placeholder="admin@exemplo.com">
+      
+      <label for="novaSenha">Senha:</label>
+      <input type="password" id="novaSenha" placeholder="Digite a senha">
+      
+      <button onclick="adicionarAdmin()">ADICIONAR ADMINISTRADOR</button>
+      <p class="mensagem" id="mensagemAdd" aria-live="polite"></p>
+    </div>
+
+    <div class="lista-admins">
+      <h2>Administradores Cadastrados</h2>
+      <div id="listaAdmins"></div>
+    </div>
   </div>
 
-  <div class="form-adicionar">
-    <h2>Adicionar Novo Administrador</h2>
-    <label>Email:</label>
-    <input type="email" id="novoEmail" placeholder="admin@exemplo.com">
-    
-    <label>Senha:</label>
-    <input type="password" id="novaSenha" placeholder="Digite a senha">
-    
-    <button onclick="adicionarAdmin()">ADICIONAR ADMINISTRADOR</button>
-    <p class="mensagem" id="mensagemAdd"></p>
-  </div>
-
-  <div class="lista-admins">
-    <h2>Administradores Cadastrados</h2>
-    <div id="listaAdmins"></div>
-  </div>
-</div>
-
-<script>
-function verificarLogin(){
-  const logado = localStorage.getItem("adminLogado");
-  if(!logado || logado !== "true"){
-    window.location.href = "login.html";
-  }
-}
-
-function carregarAdmins(){
-  const admins = JSON.parse(localStorage.getItem("admins")) || [];
-  const container = document.getElementById("listaAdmins");
-  
-  if(admins.length === 0){
-    container.innerHTML = "<p style='text-align:center; color:#666;'>Nenhum administrador cadastrado</p>";
-    return;
-  }
-  
-  container.innerHTML = "";
-  
-  admins.forEach((admin, index) => {
-    const card = document.createElement("div");
-    card.className = "admin-card";
-    card.innerHTML = `
-      <div class="admin-info">
-        <strong>${admin.email}</strong>
-      </div>
-      <button onclick="removerAdmin(${index})" class="btn-remover" ${admins.length === 1 ? 'disabled' : ''}>
-        REMOVER
-      </button>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function adicionarAdmin(){
-  const email = document.getElementById("novoEmail").value;
-  const senha = document.getElementById("novaSenha").value;
-  const mensagem = document.getElementById("mensagemAdd");
-  
-  if(email === "" || senha === ""){
-    mensagem.textContent = "Preencha todos os campos!";
-    mensagem.style.color = "red";
-    return;
-  }
-  
-  const admins = JSON.parse(localStorage.getItem("admins")) || [];
-  
-  const emailExiste = admins.find(adm => adm.email === email);
-  if(emailExiste){
-    mensagem.textContent = "Este email já está cadastrado!";
-    mensagem.style.color = "red";
-    return;
-  }
-  
-  admins.push({email: email, senha: senha});
-  localStorage.setItem("admins", JSON.stringify(admins));
-  
-  mensagem.textContent = "Administrador adicionado com sucesso!";
-  mensagem.style.color = "green";
-  
-  document.getElementById("novoEmail").value = "";
-  document.getElementById("novaSenha").value = "";
-  
-  carregarAdmins();
-}
-
-function removerAdmin(index){
-  const admins = JSON.parse(localStorage.getItem("admins")) || [];
-  
-  if(admins.length === 1){
-    alert("Não é possível remover o último administrador!");
-    return;
-  }
-  
-  if(!confirm("Tem certeza que deseja remover este administrador?")){
-    return;
-  }
-  
-  admins.splice(index, 1);
-  localStorage.setItem("admins", JSON.stringify(admins));
-  
-  alert("Administrador removido!");
-  carregarAdmins();
-}
-
-function voltarPainel(){
-  window.location.href = "painel-admin.html";
-}
-
-verificarLogin();
-carregarAdmins();
-</script>
-
-</body>
+  <script src="js/admin-base.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/gerenciar-admins.js"></script></body>
 </html>
